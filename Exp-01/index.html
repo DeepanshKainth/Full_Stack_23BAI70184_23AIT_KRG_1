@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup Page</title>
+    <style>
+        /* A more modern font and box-sizing for easier layout */
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Using flexbox to center the form vertically and horizontally */
+        body {
+            background: linear-gradient(to right, #ece9e6, #ffffff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Styling the form container with a shadow and rounded corners */
+        #signupContainer {
+            background-color: white;
+            padding: 30px;
+            width: 100%;
+            max-width: 380px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        /* Styling the input fields */
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        /* Adding a focus effect to the input fields */
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        /* Styling the submit button */
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        /* Style for the message display area */
+        #message {
+            margin-top: 15px;
+            font-size: 14px;
+            height: 20px; /* Reserve space to prevent layout shift */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="signupContainer">
+        <h2>Create Account</h2>
+
+        <form id="signupForm">
+            <!-- Using placeholders instead of labels for a cleaner look -->
+            <input type="text" id="name" name="name" placeholder="Full Name"><br>
+            <input type="text" id="email" name="email" placeholder="Email Address"><br>
+            <input type="password" id="password" name="password" placeholder="Password"><br>
+            <button type="submit">Submit</button>
+        </form>
+        
+        <!-- Element to display messages instead of using alert() -->
+        <div id="message"></div>
+    </div>
+
+    <script>
+        const myForm = document.getElementById('signupForm');
+        const messageDiv = document.getElementById('message');
+
+        myForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Clear previous messages
+            messageDiv.textContent = '';
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // --- VALIDATION ---
+            if (name === "" || email === "" || password === "") {
+                displayMessage("All fields are required.", "red");
+                return;
+            }
+
+            // A more robust email check than just indexOf('@')
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                displayMessage("Please enter a valid email.", "red");
+                return;
+            }
+
+            // If everything is okay, show a success message
+            displayMessage("Registration Successful!", "green");
+
+            // Reset the form fields after a short delay
+            setTimeout(() => {
+                 myForm.reset();
+                 messageDiv.textContent = '';
+            }, 2000);
+        });
+
+        /**
+         * Displays a message to the user in the message div.
+         * @param {string} text - The message to display.
+         * @param {string} color - The color of the text (e.g., 'red' or 'green').
+         */
+        function displayMessage(text, color) {
+            messageDiv.textContent = text;
+            messageDiv.style.color = color;
+        }
+    </script>
+
+</body>
+</html>
